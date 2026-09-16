@@ -41,4 +41,18 @@ export class UsersService {
         return newUser;
     }
 
+    update(id: string, updateUserDto: Partial<User>): User {
+        const userIndex = this.users.findIndex(user => user.id === id);
+        if (userIndex === -1) {
+            throw new NotFoundException(`User with id ${id} not found`);
+        }
+        const updatedUser = {
+            ...this.users[userIndex],
+            ...updateUserDto,
+            updatedAt: new Date(),
+        };
+        this.users[userIndex] = updatedUser;
+        return updatedUser;
+    }
+
 }
